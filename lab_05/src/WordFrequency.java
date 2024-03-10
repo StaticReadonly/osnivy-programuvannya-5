@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -8,7 +9,7 @@ public class WordFrequency {
     public static void main(String[] args) {
         try {
             String filename = "prog.txt";
-            String[] rarestWords = rarestWords(filename);
+            ArrayList<String> rarestWords = rarestWords(filename);
             System.out.println("Rarest word(s):");
             for (String word : rarestWords) {
                 System.out.println(word);
@@ -18,7 +19,7 @@ public class WordFrequency {
         }
     }
 
-    public static String[] rarestWords(String filename) throws IOException {
+    public static ArrayList<String> rarestWords(String filename) throws IOException {
         if (filename == null) {
             throw new NullPointerException("Filename cannot be null");
         }
@@ -28,7 +29,7 @@ public class WordFrequency {
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                String[] words = line.trim().split("\\s+");
+                String[] words = line.trim().split("(\\s*[,\\-+=/.!?*:;\"&]\\s*)|(\\s+)");
 
                 for (String word : words) {
                     wordFrequency.put(word, wordFrequency.getOrDefault(word, 0) + 1);
@@ -47,18 +48,11 @@ public class WordFrequency {
             }
         }
 
-        int count = 0;
-        for (int frequency : wordFrequency.values()) {
-            if (frequency == minFrequency) {
-                count++;
-            }
-        }
+        ArrayList<String> rarestWords = new ArrayList<>();
 
-        String[] rarestWords = new String[count];
-        int index = 0;
         for (Entry<String, Integer> entry : wordFrequency.entrySet()) {
             if (entry.getValue() == minFrequency) {
-                rarestWords[index++] = entry.getKey();
+                rarestWords.add(entry.getKey());
             }
         }
 
