@@ -29,7 +29,7 @@ public class WordFrequency {
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                String[] words = line.trim().split("(\\s*[,\\-+=/.!?*:;\"&]\\s*)|(\\s+)");
+                String[] words = line.trim().split("(\\s*[,\\-+%#№=/.!?*:$^`;\"&\\[\\]\\(\\)\\{\\}]\\s*)|(\\s+)");
 
                 for (String word : words) {
                     wordFrequency.put(word, wordFrequency.getOrDefault(word, 0) + 1);
